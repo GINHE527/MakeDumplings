@@ -1,0 +1,13 @@
+{
+	"version": 1,
+	"changelists": [
+		{
+			"guid": "00000000000000000000000000000000",
+			"description": "Default Uncontrolled Changelist",
+			"files": [
+				"D:/UnrealProject/MakeDumpling/Plugins/MakeDumpling/Content/MakeDumpling_Tool.uasset",
+				"D:/UnrealProject/MakeDumpling/Plugins/MakeDumpling/Content/Maps/MakeDumplingLevel.umap"
+			]
+		}
+	]
+}
