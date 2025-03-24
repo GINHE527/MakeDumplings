@@ -27,7 +27,9 @@ public:
 		High
 	};
 
-
+private:
+	// 专用于保护进程句柄的锁
+	mutable FCriticalSection HandleMutex;
 
 public:
 	// 智能指针类型定义
@@ -64,7 +66,7 @@ public:
 	TQueue<FString> MessageQueue;
 	void SendMessage(const FString& InMessage);
 	TArray<FString> ReceiveMessages();
-
+	bool GetState() const;
 	// 错误处理
 	FString LastError;
 
@@ -78,6 +80,7 @@ public:
 	static Ptr AddRunner(EPriorityLevel InPriority = EPriorityLevel::Normal,
 		FString AttributeName = "None", FString InRunPythonExePath = FString());
 	static void ClearNoRunPython();
+	static void DeleteInstanceById(uint32 id);
 
 	// 禁止复制和移动
 	Pythonrun(const Pythonrun&) = delete;
