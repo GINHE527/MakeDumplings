@@ -39,6 +39,11 @@ public class MakeDumpling : ModuleRules
 			{
 				"Core",
                 "zlib",
+                
+				"CoreUObject",
+				"Engine",
+                "UMG",          // 如需在运行时使用 UMG 委托
+				"HTTP",         // 如需网络通信
                 "DesktopPlatform" 
 				// ... add other public dependencies that you statically link with here ...
 			}
