@@ -23,9 +23,8 @@
 class MAKEDUMPLING_API Zipperman : public FRunnable
 {
 public:
-	
 
-	Zipperman(FString inTheInFolderPath, FString inTheOutFolderPath, FString inTheProjectName);
+	Zipperman();
 	virtual ~Zipperman();
 
 	virtual bool Init() override;
