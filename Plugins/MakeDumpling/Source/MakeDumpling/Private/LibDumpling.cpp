@@ -1,4 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "LibDumpling.h"
@@ -18,6 +18,10 @@ ULibDumpling* ULibDumpling::BeginPack(const FString& NeedPakedPath, const FStrin
 	// 创建实例
 	ULibDumpling* Instance = NewObject<ULibDumpling>();
 	
+	Instance->NeedPakedPath = NeedPakedPath ;
+	Instance->AimPakedPath = AimPakedPath;
+	Instance->PakedName = PakedName;
+	Instance->PakedImgPath = PakedImgPath;
 	
 	return Instance;
 	
@@ -82,7 +86,7 @@ void ULibDumpling::Activate() {
 	//move m_NeedPakedPath(has exe) to zip_path(no exe)
 	
 	Zipperman *zipper = new Zipperman();
-
+	
 	const FString Name = "HTML5LaunchHelper.zip";
 	processPercent = 3.0f;
 	OnProcess.Broadcast(processPercent, TEXT("zip begin"));
@@ -140,16 +144,16 @@ if (!PythonValue) {
 	{
 		runner_pak->Start();
 
-		// 检查状态
-		if (runner_pak->RunState == Pythonrun::ERunState::Running)
+		// 检查状态 
+		while (runner_pak->RunState == Pythonrun::ERunState::Running)
 		{
 			if (processPercent < 65.0f)
 			{
 				UE_LOG(LogTemp, Warning, TEXT("hebness 2 ！"));
 				processPercent += FMath::RandRange(0.01f, 0.03f);
 				OnProcess.Broadcast(processPercent, TEXT("upload"));
-
 			}
+			runner_pak->GetState();
 		}
 	}
 
@@ -178,10 +182,16 @@ if (!PythonValue) {
 	if (FileManager.Copy(*TargetPath, *final_app_path)) {
 		FileManager.Delete(*final_app_path); 
 		UE_LOG(LogTemp, Display, TEXT("文件已移动至：%s"), *TargetPath);
+		OnSuccess.Broadcast(TargetPath);
 	
 	}
 	else {
 		UE_LOG(LogTemp, Error, TEXT("文件移动失败！"));
+		OnFailed.Broadcast(TargetPath);
 	}
+
+	processPercent = 100.0f;
+	OnProcess.Broadcast(processPercent, TEXT("complete"));
+	
 }
 
